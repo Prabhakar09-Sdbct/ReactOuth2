@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage mode={mode}/>} />
           <Route path="/signIn" element={<SignIn mode={mode}/>} />
-          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/signUp" element={<SignUp mode={mode}/>} />
         </Routes>
       </Router>
     </ThemeProvider>

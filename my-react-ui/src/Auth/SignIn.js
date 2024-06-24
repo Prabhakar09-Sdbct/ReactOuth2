@@ -18,11 +18,11 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
+      {/* <Link color="inherit" href="https://mui.com/"> */}
+        LNC Pvt. Ltd.
+      {/* </Link>{' '} */}
       {new Date().getFullYear()}
-      {'.'}
+    
     </Typography>
   );
 }
@@ -98,7 +98,7 @@ export default function SignIn({ mode }) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/SignUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
