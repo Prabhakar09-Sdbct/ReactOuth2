@@ -6,6 +6,7 @@ import LandingPage from './LandingPage';
 import AppAppBar from './components/AppAppBar';
 import getLPTheme from './components/getLPTheme';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Home from './components/home';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage mode={mode}/>} />
           <Route path="/signIn" element={<SignIn mode={mode}/>} />
+          <Route path="/home" element={<Home/>} />
           <Route path="/signUp" element={<SignUp mode={mode}/>} />
         </Routes>
       </Router>

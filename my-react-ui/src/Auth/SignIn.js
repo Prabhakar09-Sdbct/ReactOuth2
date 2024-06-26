@@ -13,16 +13,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import getLPTheme from '../components/getLPTheme';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AuthService from "../services/auth.service";
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      {/* <Link color="inherit" href="https://mui.com/"> */}
-        LNC Pvt. Ltd.
-      {/* </Link>{' '} */}
+      LNC Pvt. Ltd.
       {new Date().getFullYear()}
-    
+
     </Typography>
   );
 }
@@ -31,13 +31,27 @@ export default function SignIn({ mode }) {
 
   const LPtheme = createTheme(getLPTheme(mode));
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
+      loginId: data.get('email'),
       password: data.get('password'),
     });
+    const loginId = data.get('email');
+    const password = data.get('password');
+
+    AuthService.login(loginId, password).then(
+      () => {
+        navigate("/home");
+        window.location.reload();
+      },
+      error => {
+          console.log("error.message",error.message)
+      }
+    );
   };
 
   return (

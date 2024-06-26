@@ -64,19 +64,21 @@ function AppAppBar({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
+               <Link to="/">
               <img
                 src={myLogo}
                 style={logoStyle}
                 alt="logo of sitemark"
               />
+              </Link>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
                   component={Link}
-                  to="/"
+                  to="/home"
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    About
+                    Home
                   </Typography>
                 </MenuItem>
               </Box>
