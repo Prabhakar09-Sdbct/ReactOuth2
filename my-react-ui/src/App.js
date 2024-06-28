@@ -1,15 +1,17 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import LandingPage from './LandingPage';
-import AppAppBar from './components/AppAppBar';
-import getLPTheme from './components/getLPTheme';
+import AppAppBar from './components/common/AppAppBar';
+import getLPTheme from './components/common/getLPTheme';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Home from './components/home';
+import CustomTable from './components/common/CustomTable';
+import ProtectedRoute from './Auth/ProtectedRoute';
+import { AuthProvider } from './Auth/AuthContext';
 
-function App() {
-  const [mode, setMode] = React.useState('light');
+const App = () => {
+  const [mode, setMode] = useState('light');
   const LPtheme = createTheme(getLPTheme(mode));
 
   const toggleColorMode = () => {
@@ -19,16 +21,23 @@ function App() {
   return (
     <ThemeProvider theme={LPtheme}>
       <Router>
-        <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-        <Routes>
-          <Route path="/" element={<LandingPage mode={mode}/>} />
-          <Route path="/signIn" element={<SignIn mode={mode}/>} />
-          <Route path="/home" element={<Home/>} />
-          <Route path="/signUp" element={<SignUp mode={mode}/>} />
-        </Routes>
+        <AuthProvider>
+          <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
+          <Routes>
+            <Route path="/" element={<ProtectedRoute> <LandingPage mode={mode} /> </ProtectedRoute>} />
+            <Route path="/signIn" element={<SignIn mode={mode} />} />
+            <Route path="/signUp" element={<SignUp mode={mode} />} />
+            <Route path="/home" element={
+              <ProtectedRoute>
+                <CustomTable mode={mode} />
+              </ProtectedRoute>
+            } />
+            <Route path="*" element={<Navigate to="/signIn" />} />
+          </Routes>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
