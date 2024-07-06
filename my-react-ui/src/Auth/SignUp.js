@@ -13,17 +13,18 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import getLPTheme from '../components/common/getLPTheme';
-
+import authService from '../services/auth.service';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       {/* <Link color="inherit" href="https://mui.com/"> */}
-        LNC Pvt. Ltd.
+      LNC Pvt. Ltd.
       {/* </Link>{' '} */}
       {new Date().getFullYear()}
-    
+
     </Typography>
   );
 }
@@ -37,12 +38,37 @@ export default function SignUp({ mode }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Use FormData to extract input values
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const firstName = data.get('firstName');
+    const lastName = data.get('lastName');
+    const loginId = data.get('loginId');
+    const password = data.get('password');
+
+    // Validation: Ensure all required fields are filled
+    if (!firstName || !lastName || !loginId || !password) {
+      toast.error('All fields are required!');
+      return;
+    }
+
+    // Call the authService register method
+    authService.register(firstName, lastName, loginId, password)
+      .then(response => {
+        console.log(response); // Debug the response
+        if (response.data.success) {
+          toast.success('SignUp successful!');
+          // Optionally redirect to login or home page
+        } else {
+          toast.error('SignUp failed: ' + response.data.message);
+        }
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      });
+
   };
+
 
   return (
     <ThemeProvider theme={LPtheme}>
@@ -89,10 +115,10 @@ export default function SignUp({ mode }) {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="loginId"
+                  label="Login Id"
+                  name="loginId"
+                  autoComplete="loginId"
                 />
               </Grid>
               <Grid item xs={12}>

@@ -42,7 +42,6 @@ export default function CustomTable({ mode }) {
             setSpinner(true);
             try {
                 const response = await userService.getTableData();
-                console.log("data", response.data);
                 setTableData(response.data.result.userList);
             } catch (error) {
                 console.error('Error Table Data receipts:', error);

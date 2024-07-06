@@ -15,6 +15,7 @@ import getLPTheme from '../components/common/getLPTheme';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AuthService from "../services/auth.service";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -43,15 +44,21 @@ export default function SignIn({ mode }) {
     const loginId = data.get('email');
     const password = data.get('password');
 
-    AuthService.login(loginId, password).then(
-      () => {
-        navigate("/home");
-        window.location.reload();
-      },
-      error => {
-          console.log("error.message",error.message)
-      }
-    );
+   
+    AuthService.login(loginId, password)
+      .then(response => {
+        console.log(response);
+        if (response.data.success) {
+          toast.success('Login successful!');
+          navigate('/home');
+          window.location.reload();
+        } else {
+          toast.error('Login failed: ' + response.data.message);
+        }
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      });
   };
 
   return (

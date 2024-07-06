@@ -14,17 +14,18 @@ class AuthService {
         console.log("added in localstorage");
           localStorage.setItem("userDetails", JSON.stringify(response.data.result));
       }
-      return response.data.result;
+      return response;
   }
 
   logout() {
     localStorage.removeItem("userDetails");
   }
 
-  register(username, email, password) {
+  register(firstName,lastName, loginId, password) {
     return axios.post(API_URL + "signup", {
-      username,
-      email,
+      firstName,
+      lastName,
+      loginId,
       password
     });
   }

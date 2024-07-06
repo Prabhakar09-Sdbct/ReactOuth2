@@ -19,7 +19,6 @@ const ProtectedRoute = ({ children }) => {
 
     if (userDetails) {
       const decodedJwt = parseJwt(userDetails.token);
-      console.log("Token expired:", decodedJwt.exp * 1000 < Date.now());
 
       if (decodedJwt && decodedJwt.exp * 1000 < Date.now()) {
         setUser(false);

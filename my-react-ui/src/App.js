@@ -9,6 +9,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CustomTable from './components/common/CustomTable';
 import ProtectedRoute from './Auth/ProtectedRoute';
 import { AuthProvider } from './Auth/AuthContext';
+import Profile from './components/profile';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [mode, setMode] = useState('light');
@@ -24,9 +27,10 @@ const App = () => {
         <AuthProvider>
           <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
           <Routes>
-            <Route path="/" element={<ProtectedRoute> <LandingPage mode={mode} /> </ProtectedRoute>} />
             <Route path="/signIn" element={<SignIn mode={mode} />} />
             <Route path="/signUp" element={<SignUp mode={mode} />} />
+            <Route path="/" element={<ProtectedRoute> <LandingPage mode={mode} /> </ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute> <Profile mode={mode} /> </ProtectedRoute>} />
             <Route path="/home" element={
               <ProtectedRoute>
                 <CustomTable mode={mode} />
@@ -36,6 +40,7 @@ const App = () => {
           </Routes>
         </AuthProvider>
       </Router>
+      <ToastContainer />
     </ThemeProvider>
   );
 };
