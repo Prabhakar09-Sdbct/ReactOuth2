@@ -2,11 +2,10 @@ import { Box, Button, Container, Grid, Paper, TextField, Typography, alpha } fro
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import getLPTheme from './common/getLPTheme';
-import "./profile.css";
-import Loader from './loader/loader';
 import userService from '../services/user.service';
-import { toast } from 'react-toastify';
+import getLPTheme from './common/getLPTheme';
+import Loader from './loader/loader';
+import "./profile.css";
 
 export default function Profile({ mode }) {
 
@@ -79,7 +78,9 @@ export default function Profile({ mode }) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField type="text" id="loginId" name="loginId" placeholder="Login ID" className="outlined-input"
-                    value={loginId} />
+                  InputProps={{
+                    readOnly: true,
+                  }}  value={loginId} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField type="text" id="firstName" name="firstName" placeholder="firstName" className="outlined-input"

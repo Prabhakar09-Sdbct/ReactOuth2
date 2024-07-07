@@ -55,10 +55,8 @@ export default function SignUp({ mode }) {
     // Call the authService register method
     authService.register(firstName, lastName, loginId, password)
       .then(response => {
-        console.log(response); // Debug the response
         if (response.data.success) {
-          toast.success('SignUp successful!');
-          // Optionally redirect to login or home page
+          toast.success('SignUp successful!'); 
         } else {
           toast.error('SignUp failed: ' + response.data.message);
         }
