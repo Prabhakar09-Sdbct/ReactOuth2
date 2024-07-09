@@ -15,6 +15,8 @@ import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AuthService from "../../services/auth.service";
 import AuthContext from '../../Auth/AuthContext';
+import { Divider, Drawer } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const logoStyle = {
   width: '140px',
@@ -23,9 +25,14 @@ const logoStyle = {
 };
 
 function AppAppBar({ mode, toggleColorMode }) {
-  const { user, logOut } = React.useContext(AuthContext); 
+  const [open, setOpen] = React.useState(false);
+  const { user, logOut } = React.useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,7 +45,7 @@ function AppAppBar({ mode, toggleColorMode }) {
   const callLogout = () => {
     setAnchorEl(null);
     AuthService.logout();
-    logOut(); 
+    logOut();
   };
 
   const menuId = 'primary-search-account-menu';
@@ -176,6 +183,103 @@ function AppAppBar({ mode, toggleColorMode }) {
                   </Button>
                 </>
               )}
+            </Box>
+
+            <Box sx={{ display: { sm: '', md: 'none' } }}>
+              <Button
+                variant="text"
+                color="primary"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ minWidth: '30px', p: '4px' }}
+              >
+                <MenuIcon />
+              </Button>
+              <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+                <Box
+                  sx={{
+                    minWidth: '60dvw',
+                    p: 2,
+                    backgroundColor: 'background.paper',
+                    flexGrow: 1,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'end',
+                      flexGrow: 1,
+                    }}
+                  >
+                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+                  </Box>
+                  {user ? (
+                    <>
+                      <IconButton
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        onClick={handleProfileMenuOpen}
+                        sx={(theme) => ({
+                          color: theme.palette.mode === 'light' ? 'black' : 'white',
+                          bgcolor: theme.palette.mode === 'light' ? 'white' : 'black',
+                          '&:hover': {
+                            bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
+                          },
+                          borderRadius: '50%',
+                          padding: 1,
+                          border: `1px solid ${theme.palette.divider}`,
+                          boxShadow:
+                            theme.palette.mode === 'light'
+                              ? '0px 4px 10px rgba(0, 0, 0, 0.1)'
+                              : '0px 4px 10px rgba(255, 255, 255, 0.1)',
+                        })}
+                      >
+                        <AccountCircle />
+                      </IconButton>
+                      <MenuItem
+                        component={Link}
+                        to="/home"
+                        sx={{ py: '6px', px: '12px' }}
+                      >
+                        <Typography variant="body2" color="text.primary">
+                          Home
+                        </Typography>
+                      </MenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <Divider />
+                      <MenuItem>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          size="a"
+                          component={Link}
+                          to="/signIn"
+                          sx={{ width: '100%' }}
+                        >
+                          Sign in
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          size="a"
+                          component={Link}
+                          to="/signUp"
+                          sx={{ width: '100%' }}
+                        >
+                          Sign up
+                        </Button>
+                      </MenuItem>
+                    </>
+                     )}
+                </Box>
+              </Drawer>
             </Box>
           </Toolbar>
         </Container>

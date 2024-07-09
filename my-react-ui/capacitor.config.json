@@ -1,0 +1,14 @@
+{
+  "appId": "com.example.myreactui",
+  "appName": "my-react-ui",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {},
+  "server": {
+    "hostname": "192.168.1.4",
+    "androidScheme": "http",
+    "androidPath": "/api",
+    "port": 9106
+  }
+}

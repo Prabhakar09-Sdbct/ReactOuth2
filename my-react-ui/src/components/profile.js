@@ -6,6 +6,7 @@ import userService from '../services/user.service';
 import getLPTheme from './common/getLPTheme';
 import Loader from './loader/loader';
 import "./profile.css";
+import { toast } from 'react-toastify';
 
 export default function Profile({ mode }) {
 
@@ -19,9 +20,13 @@ export default function Profile({ mode }) {
     setSpinner(true);
     try {
       const response = await userService.getUserByLoginId();
-      setProfile(response.data.result.data);
+      if (response.status === 200) {
+        setProfile(response.data.result.data); 
+      } else {
+        toast.error('${response.message}');
+      }
     } catch (error) {
-      console.error('Error Table Data receipts:', error);
+      toast.error(' Error Table Data receipts: ${error}');
     } finally {
       setSpinner(false);
     }

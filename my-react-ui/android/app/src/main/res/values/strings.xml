@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">my-react-ui</string>
+    <string name="title_activity_main">my-react-ui</string>
+    <string name="package_name">com.example.myreactui</string>
+    <string name="custom_url_scheme">com.example.myreactui</string>
+</resources>

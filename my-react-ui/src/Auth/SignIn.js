@@ -17,49 +17,31 @@ import AuthService from "../services/auth.service";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      LNC Pvt. Ltd.
-      {new Date().getFullYear()}
-
-    </Typography>
-  );
-}
-
 export default function SignIn({ mode }) {
-
   const LPtheme = createTheme(getLPTheme(mode));
-
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      loginId: data.get('email'),
-      password: data.get('password'),
-    });
     const loginId = data.get('email');
     const password = data.get('password');
 
-   
-    AuthService.login(loginId, password)
-      .then(response => {
-        console.log(response);
-        if (response.data.success) {
-          toast.success('Login successful!');
-          navigate('/home');
-          window.location.reload();
-        } else {
-          toast.error('Login failed: ' + response.data.message);
-        }
-      })
-      .catch(error => {
-        toast.error(error.response.data.message);
-      });
+    try {
+      const response = await AuthService.login(loginId, password);
+
+      if (response.status === 200) {
+
+        toast.success('Login successful!');
+        navigate('/home');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      toast.error('Login failed. Please try again.');
+    }
   };
+
 
   return (
     <ThemeProvider theme={LPtheme}>
@@ -126,7 +108,6 @@ export default function SignIn({ mode }) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

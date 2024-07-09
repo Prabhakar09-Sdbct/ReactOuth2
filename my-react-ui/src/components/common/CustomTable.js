@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import getLPTheme from './getLPTheme';
 import userService from '../../services/user.service';
 import Loader from '../loader/loader';
+import { toast } from 'react-toastify';
 
 
 export default function CustomTable({ mode }) {
@@ -42,7 +43,11 @@ export default function CustomTable({ mode }) {
             setSpinner(true);
             try {
                 const response = await userService.getTableData();
-                setTableData(response.data.result.userList);
+                if (response.status === 200) {
+                    setTableData(response.data.result.userList);
+                } else {
+                    throw new Error('Network response was not ok table');
+                }
             } catch (error) {
                 console.error('Error Table Data receipts:', error);
             } finally {
