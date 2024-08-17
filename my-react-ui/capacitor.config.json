@@ -6,7 +6,7 @@
   "webDir": "build",
   "cordova": {},
   "server": {
-    "hostname": "192.168.1.4",
+    "hostname": "192.168.125.204",
     "androidScheme": "http",
     "androidPath": "/api",
     "port": 9106
